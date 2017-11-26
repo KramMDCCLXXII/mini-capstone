@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   namespace :v1 do
     get "/products" => "products#index"
-    get "/params_url" => "products#params_method"
+    get "/products/:id" => "products#show"
+    post "/products" => "products#create"
+    patch "/products/:id" => "products#update"
+    delete "/products/:id" => "products#destroy"
   end 
-end
+end 
