@@ -1,25 +1,30 @@
 require "unirest"
 require "pp"
-
-while true
-  system "clear"
-  puts "Choose an option:"
-  puts "[1] Show all products"
-  puts "  [1.1] Show all products that match search terms"
-  puts "  [1.2] Show all products sorted by price"
-  
-  puts "[2] Create a product"
-  puts "[3] Show one product"
-  puts "[4] Update a product"
-  puts "[5] Delete a product"
-  puts "[6] Order product(s)"
-  puts "[7] Show ordered product(s)"
-  puts
-  puts "[signup] Sign up (create a user)"
-  puts "[login] Log in (create a jwt)"
-  puts "[logout] Log out (destroy the jwt)"
-  puts
-  puts "[q] Quit"
+class Frontend
+  def initialize
+    @jwt = ""
+  end
+  def show_menu
+    while true
+      system "clear"
+      puts "Choose an option:"
+      puts "[1] Show all products"
+      puts "  [1.1] Show all products that match search terms"
+      puts "  [1.2] Show all products sorted by price"
+      
+      puts "[2] Create a product"
+      puts "[3] Show one product"
+      puts "[4] Update a product"
+      puts "[5] Delete a product"
+      puts "[6] Order product(s)"
+      puts "[7] Show ordered product(s)"
+      puts
+      puts "[signup] Sign up (create a user)"
+      puts "[login] Log in (create a jwt)"
+      puts "[logout] Log out (destroy the jwt)"
+      puts
+      puts "[q] Quit"
+  end
 
   input_option = gets.chomp
   if input_option == "1"
@@ -120,10 +125,10 @@ while true
     )
     pp response.body
     
-    jwt = response.body["jwt"]
+    @jwt = response.body["jwt"]
     Unirest.default_header("Authorization", "Bearer #{jwt}")
   elsif input_option == "logout"
-    jwt = ""
+    @jwt = ""
     Unirest.clear_default_headers()
     puts "Logged out successfully!"
   elsif input_option == "6"
@@ -145,6 +150,11 @@ while true
     puts "Goodbye!"    
     break
   end
-  puts "Press enter to continue"
-  gets.chomp
+    puts "Press enter to continue"
+    gets.chomp
+  end
+  end
 end
+
+frontend = Frontend.new 
+frontend.run  
